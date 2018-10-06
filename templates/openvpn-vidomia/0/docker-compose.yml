@@ -1,0 +1,29 @@
+version: '2'
+volumes:
+  openvpn:
+    external: true
+    driver: rancher-nfs
+services:
+  openvpn-rancher:
+    privileged: true
+    image: mdns/rancher-openvpn:1.1
+    environment:
+      AUTH_METHOD: rancherlocal
+      AUTH_RANCHERLOCAL_URL: http://192.168.0.171:8080//v1/token
+      CERT_CITY: Nanterre
+      CERT_COUNTRY: FR
+      CERT_EMAIL: julien@vidomia.biz
+      CERT_ORG: Vidomia
+      CERT_OU: IT
+      CERT_PROVINCE: Ile de France
+      OPENVPN_EXTRACONF: ''
+      REMOTE_IP: 217.182.93.206
+      REMOTE_PORT: '1194'
+      VPNPOOL_CIDR: '16'
+      VPNPOOL_NETWORK: 10.43.0.0
+    volumes:
+    - openvpn:/etc/openvpn
+    ports:
+    - 1194:1194/tcp
+    labels:
+      io.rancher.container.pull_image: always

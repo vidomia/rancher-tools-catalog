@@ -1,0 +1,111 @@
+version: '2'
+volumes:
+  registry-proxy:
+    external: true
+    driver: rancher-nfs
+  registry-data:
+    external: true
+    driver: rancher-nfs
+  registry-certs:
+    external: true
+    driver: rancher-nfs
+services:
+  registry:
+    image: registry:2.3.1
+    environment:
+      REGISTRY_AUTH: token
+      REGISTRY_AUTH_TOKEN_ISSUER: docker.vidomia.biz.
+      REGISTRY_AUTH_TOKEN_REALM: https://docker.vidomia.biz.:443/v2/token
+      REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE: /certs/registry.crt
+      REGISTRY_AUTH_TOKEN_SERVICE: docker.vidomia.biz.:5000
+      REGISTRY_HTTP_SECRET: httpsecret
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/registry.crt
+      REGISTRY_HTTP_TLS_KEY: /certs/registry.key
+      REGISTRY_LOG_LEVEL: warn
+      REGISTRY_NOTIFICATIONS_ENDPOINTS: |-
+        - name: portus
+          url: http://portus:3000/v2/webhooks/events
+          timeout: 500
+          threshold: 5
+          backoff: 1
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+    stdin_open: true
+    volumes:
+    - registry-certs:/certs
+    - registry-data:/var/lib/registry
+    tty: true
+    links:
+    - portus:portus
+  lb-registry:
+    image: rancher/lb-service-haproxy:v0.7.15
+    ports:
+    - 443:443/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin,agent
+      io.rancher.container.agent_service.drain_provider: 'true'
+      io.rancher.container.create_agent: 'true'
+  sslproxy:
+    image: nginx:1.9.9
+    stdin_open: true
+    volumes:
+    - /registry/certs:/etc/nginx/certs:ro
+    - /registry/proxy:/etc/nginx/conf.d:ro
+    tty: true
+    links:
+    - portus:portus
+    labels:
+      io.rancher.scheduler.affinity:container_label_soft: registry.portus.db=1
+  db:
+    image: mysql:5.7.10
+    environment:
+      MYSQL_DATABASE: portus
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: portus
+    stdin_open: true
+    volumes:
+    - /registry/db:/var/lib/mysql
+    tty: true
+    labels:
+      registry.portus.db: '1'
+  portus:
+    image: sshipway/portus:2.0.5
+    environment:
+      PORTUS_CHECK_SSL_USAGE_ENABLED: 'true'
+      PORTUS_GRAVATAR_ENABLED: 'true'
+      PORTUS_KEY_PATH: /certs/registry.key
+      PORTUS_LDAP_AUTHENTICATION_BIND_DN: ou=portus,dc=company,dc=com
+      PORTUS_LDAP_AUTHENTICATION_ENABLED: 'false'
+      PORTUS_LDAP_AUTHENTICATION_PASSWORD: password
+      PORTUS_LDAP_BASE: ou=People,dc=company,dc=com
+      PORTUS_LDAP_ENABLED: 'false'
+      PORTUS_LDAP_GUESS_EMAIL_ATTR: mail
+      PORTUS_LDAP_GUESS_EMAIL_ENABLED: 'true'
+      PORTUS_LDAP_HOSTNAME: ldap.company.com
+      PORTUS_LDAP_METHOD: starttls
+      PORTUS_LDAP_PORT: '389'
+      PORTUS_LDAP_UID: cn
+      PORTUS_MACHINE_FQDN: docker.vidomia.biz.
+      PORTUS_PASSWORD: password
+      PORTUS_PORT: '443'
+      PORTUS_PRODUCTION_DATABASE: portus
+      PORTUS_PRODUCTION_HOST: db
+      PORTUS_PRODUCTION_PASSWORD: password
+      PORTUS_PRODUCTION_USERNAME: portus
+      PORTUS_SECRET_KEY_BASE: password
+      PORTUS_SMTP_ENABLED: 'false'
+      REGISTRY_HOSTNAME: docker.vidomia.biz.
+      REGISTRY_NAME: Registry
+      REGISTRY_PORT: '5000'
+      REGISTRY_SSL_ENABLED: 'true'
+    stdin_open: true
+    volumes:
+    - registry-certs:/certs
+    - registry-proxy:/etc/nginx/conf.d
+    tty: true
+    links:
+    - db:db
+    labels:
+      registry.portus.app: '1'
+      io.rancher.scheduler.affinity:container_label_soft: registry.portus.db=1
+      io.rancher.container.pull_image: always

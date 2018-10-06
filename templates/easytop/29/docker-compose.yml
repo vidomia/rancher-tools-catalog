@@ -1,0 +1,43 @@
+version: '2'
+services:
+  shopping:
+    image: registry.containers.ovh.net/vidomia/ezt-merchant-rest:0.2.5-28-g4930651
+    volumes:
+      - ${VOLUME_PREFIX}/googleshopping/private:/root/shopping-samples/content/
+    command: sh /run.sh
+    labels:
+      - "io.rancher.scheduler.affinity:container_label_soft: io.rancher.stack_service.name=$${stack_name}/$${service_name}"
+  front:
+    image: registry.containers.ovh.net/vidomia/ezt-lb:0.2.5-28-g4930651
+    command: sh /run.sh
+    volumes:
+      - ${VOLUME_PREFIX}/nginx/logs/:/var/log/nginx/
+      - ${VOLUME_PREFIX}/cms/backend/db/:/app/vendor
+      - ${VOLUME_PREFIX}/cms/backend/db/:/app/db
+      - ${VOLUME_PREFIX}/cms/backend/media/:/app/media/
+    environment:
+      - MY_DOMAIN_NAME=${DOMAIN_NAME}
+      - GOOGLE_UA=${GOOGLE_UA}
+    mem_limit: 1g
+    cpu_shares: 128
+    depends_on:
+      - backend
+    links:
+      - "backend:backend"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:${DOMAIN_NAME}"
+      -  "io.rancher.container.pull_image=always"
+      - "io.rancher.scheduler.affinity:container_label_soft: io.rancher.stack_service.name=$${stack_name}/$${service_name}"
+  backend:
+    image: registry.containers.ovh.net/vidomia/ezt-cms:0.2.5-28-g4930651
+    command: sh /run.sh
+    volumes:
+      - ${VOLUME_PREFIX}/cms/backend/db/:/app/db
+      - ${VOLUME_PREFIX}/cms/backend/media/:/app/media
+    depends_on:
+      - shopping
+    links:
+      - "shopping:shopping"
+    labels:

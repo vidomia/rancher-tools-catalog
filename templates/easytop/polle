@@ -1,0 +1,10 @@
+  alias git="docker run -ti --rm -v $(pwd):/git bwits/docker-git-alpine"
+  cd $(mktemp -d)
+  git clone https://github.com/vidomia/easytop.git 
+  git archive --format=tar --remote=git@github.com:vidomia/easytop.git master | tar -xf -
+  docker login -u b2m2kv60rpkz -p jXaWqTNv70P6IyVngBdw registry.containers.ovh.net
+  docker tag ezt-cms registry.containers.ovh.net/vidomia/ezt-cms
+  docker tag ezt-merchant-rest registry.containers.ovh.net/vidomia/ezt-merchant-rest
+  docker push registry.containers.ovh.net/vidomia/ezt-merchant-rest
+  docker push registry.containers.ovh.net/vidomia/ezt-merchant-cms
+  docker push registry.containers.ovh.net/vidomia/ezt-cms

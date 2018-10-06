@@ -1,0 +1,12 @@
+.catalog:
+  name:  encrerie
+  version: 0
+  description: Wagtail vidomia encrerie
+  encrerie-backend:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+  encrerie-front:
+    retain-ip: false
+    scale: 1
+    start_on_create: true

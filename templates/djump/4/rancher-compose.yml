@@ -1,0 +1,12 @@
+.catalog:
+  name:  djump
+version: 6
+  description: Djump
+  djump:
+    retain_ip: false
+    scale: 1
+    start_on_create: true
+  djumpdb:
+    retain-ip: false
+    scale: 1
+    start_on_create: true

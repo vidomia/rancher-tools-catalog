@@ -1,0 +1,47 @@
+version: '2'
+volumes:
+  kong-postgres:
+    external: true
+    driver: rancher-nfs
+services:
+  kong-dashboard:
+    image: pgbi/kong-dashboard
+    tty: true
+    ports:
+    - 53486:8080/tcp
+    command:
+    - start
+    - -u
+    - http://kong:8001/
+    labels:
+      - "io.rancher.container.hostname_override=container_name"
+      - "traefik.port=80"
+      - "traefik.frontend.rule=Host:api.vidomia.biz"
+      - "traefik.enable=true"
+  postgres:
+    image: postgres:9.5.3
+    environment:
+      PGDATA: /data/postgres/data
+      POSTGRES_PASSWORD: '!PC+z:{b|VZGS@of'
+      POSTGRES_USER: kong
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.hostname_override: container_name
+  kong:
+    image: goomeo/kong:0.10.2
+    environment:
+      KONG_PG_HOST: postgres
+      KONG_PG_PASSWORD: '!PC+z:{b|VZGS@of'
+      KONG_PG_USER: kong
+    tty: true
+    links:
+    - postgres:postgres
+    ports:
+    - 62150:7946/tcp
+    - 50082:7946/udp
+    - 59363:8000/tcp
+    - 56771:8001/tcp
+    - 51322:8443/tcp
+    labels:
+      io.rancher.container.hostname_override: container_name

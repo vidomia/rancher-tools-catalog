@@ -1,0 +1,40 @@
+.catalog:
+  name: Registry vidomia
+  version: 0
+  description: Registry vidomia
+version: '2'
+services:
+  registry:
+    scale: 1
+    start_on_create: true
+  lb-registry:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: docker.vidomia.biz
+        path: ''
+        priority: 1
+        protocol: tcp
+        service: sslproxy
+        source_port: 443
+        target_port: 443
+        weight: 0
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 42
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      reinitializing_timeout: 60000
+  sslproxy:
+    scale: 1
+    start_on_create: true
+  db:
+    scale: 1
+    start_on_create: true
+  portus:
+    scale: 1
+    start_on_create: true

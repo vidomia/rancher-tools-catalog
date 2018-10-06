@@ -1,0 +1,24 @@
+version: '2'
+services:
+  encrerie-backend:
+    image: registry.containers.ovh.net/vidomia/encrerie:0.02
+    volumes:
+      - /home/rancher/encrerie/encrerie/encrerie:/app
+    mem_limit: 2g
+    cpu_shares: 128
+  encrerie-front:
+    image: nginx:alpine
+    command: sh /run.sh
+    volumes:
+      - /home/rancher/encrerie/encrerie/nginx/run.sh:/run.sh
+      - /home/rancher/encrerie/encrerie/nginx/conf/app.conf:/etc/nginx/app.conf
+      - /home/rancher/encrerie/encrerie/nginx/logs/:/var/log/nginx/
+    environment:
+      - MY_DOMAIN_NAME=www.lencrerie.fr
+      - GOOGLE_UA=UA-112983495-1
+    mem_limit: 1g
+    cpu_shares: 128
+    depends_on:
+      - encrerie-backend
+    links:
+      - "encrerie-backend:encrerie-backend"

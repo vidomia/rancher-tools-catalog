@@ -1,0 +1,7 @@
+name: Wagtail encrerie
+description: |
+        Stack wagtail 
+version: 3
+category: cms
+maintainer: julien@vidomia.biz<julien BIJOUX>
+license: BSD

@@ -1,0 +1,7 @@
+name: kong
+description: |
+                        Stack kong
+version: 2.1
+category: api
+maintainer: julien@vidomia.biz<julien BIJOUX>
+license: BSD

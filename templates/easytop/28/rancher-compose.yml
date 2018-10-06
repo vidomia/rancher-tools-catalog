@@ -1,0 +1,29 @@
+.catalog:
+  name:  easytop
+  version: 0.2.5-27-gf21e263
+  description: easytop
+  questions:
+    - variable: DOMAIN_NAME
+      label: nom de domaine
+      description: fully qualified domain name 
+      type: string
+    - variable: VOLUME_PREFIX
+      label: prefix
+      description: /home/rancher/easytop par exemple
+      type: string
+    - variable: GOOGLE_UA
+      label: GOOGLE_UA
+      description: Identifiant Google 
+      type: string
+  shopping:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+  front:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+  backend:
+    retain-ip: false
+    scale: 1
+    start_on_create: true

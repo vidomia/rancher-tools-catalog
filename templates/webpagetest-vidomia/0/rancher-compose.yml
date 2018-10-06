@@ -1,0 +1,28 @@
+version: '2'
+catalog:
+  name: redis vidomia nfs
+  version: 1
+  description: "Redis master slave config"
+  minimum_rancher_version: v1.5.0
+  questions:
+    - variable: 'REDIS-SLAVES'
+      description: "Number of slaves"
+      label: "Redis slaves"
+      required: true
+      default: 1
+      type: "string"
+    - variable: "PUBLISH_PORT"
+      description: "Set port if you want publish external port for GoCD server or Loadbalancer"
+      label: "Publish port"
+      required: false
+      type: "string"
+      default: "6379"
+services:
+  redis-vidomia-nfs-master:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+  redis-vidomia-nfs-slave:
+    retain-ip: false
+    scale: ${REDIS_SLAVES}
+    start_on_create: true

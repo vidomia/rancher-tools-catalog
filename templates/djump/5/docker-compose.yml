@@ -1,0 +1,15 @@
+version: '2'
+services:
+   djump:
+    image: registry.containers.ovh.net/vidomia/djump:6
+    mem_limit: 2g
+    cpu_shares: 128
+    depends_on:
+      - djumpdb
+    links:
+      - "djumpdb:djumpdb"
+   djumpdb:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
