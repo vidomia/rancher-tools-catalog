@@ -17,7 +17,7 @@ osm:
     ENABLE_DETAIL_ANALYSIS: 'true'
     API_KEY_DETAIL_ANALYSIS: 'api_key_detail_analysis'
 
-osm_mysql:
+osmmysql:
   image: mysql:5.7
   container_name: osm_mysql
   volumes:
@@ -40,8 +40,8 @@ osmda:
     OSMDA_JVM_XMS: 1024m
     OSMDA_JVM_XMX: 2048m
 
-osmda_mongodb:
+osmdamongodb:
   image:  mongo:3.2
-  container_name: osmda_mongodb
+  container_name: osmdamongodb
   volumes:
     - osmda_mongodb_data:/data/db

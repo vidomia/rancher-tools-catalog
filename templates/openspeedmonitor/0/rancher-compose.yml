@@ -5,12 +5,12 @@
 osm:
   scale: 1
   start_on_create: true
-osm_mysql:
+osmmysql:
   scale: 1
   start_on_create: true
 osmda:
   scale: 1
   start_on_create: true
-osmda_mongodb:
+osmdamongodb:
   scale: 1
   start_on_create: true
