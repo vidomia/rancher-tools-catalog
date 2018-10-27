@@ -1,6 +1,6 @@
 .catalog:
   name:  openspeedmonitor
-version: 1
+  version: 1
   description: openspeedmonitor
 osm:
   scale: 1
