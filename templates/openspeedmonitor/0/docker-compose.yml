@@ -5,17 +5,17 @@ osm:
   ports:
    - "8080:8080"
   environment:
-  MYSQL_HOST: osm_mysql
-  MYSQL_DATABASE: osm
-  MYSQL_USER: osm
-  MYSQL_PASSWORD: osm
-  OSM_ADMIN_USER: admin
-  OSM_ADMIN_PASSWORD: admin
-  OSM_ROOT_USER: root
-  OSM_ROOT_PASSWORD: root
-  DETAIL_ANALYSIS_URL: 'http://osmda:8088'
-  ENABLE_DETAIL_ANALYSIS: 'true'
-  API_KEY_DETAIL_ANALYSIS: 'api_key_detail_analysis'
+    MYSQL_HOST: osm_mysql
+    MYSQL_DATABASE: osm
+    MYSQL_USER: osm
+    MYSQL_PASSWORD: osm
+    OSM_ADMIN_USER: admin
+    OSM_ADMIN_PASSWORD: admin
+    OSM_ROOT_USER: root
+    OSM_ROOT_PASSWORD: root
+    DETAIL_ANALYSIS_URL: 'http://osmda:8088'
+    ENABLE_DETAIL_ANALYSIS: 'true'
+    API_KEY_DETAIL_ANALYSIS: 'api_key_detail_analysis'
 
 osm_mysql:
   image: mysql:5.7
