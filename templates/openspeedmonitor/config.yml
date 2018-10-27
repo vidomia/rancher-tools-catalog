@@ -1,6 +1,6 @@
 name: openspeedmonitor
 description: |
-        Monitoring
+        Monitor speed
 version: 1
 maintainer: julien@vidomia.biz<julien BIJOUX>
-category: Monitoring
+category: Continuous Integration
