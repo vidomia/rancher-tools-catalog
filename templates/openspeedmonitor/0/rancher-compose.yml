@@ -2,16 +2,15 @@
   name:  openspeedmonitor
 version: 1
   description: openspeedmonitor
-services:
-  osm:
+osm:
+  scale: 1
+    start_on_create: true
+osm_mysql:
     scale: 1
     start_on_create: true
-  osm_mysql:
+osmda:
     scale: 1
     start_on_create: true
-  osmda:
-    scale: 1
-    start_on_create: true
-  osmda_mongodb:
+osmda_mongodb:
     scale: 1
     start_on_create: true
