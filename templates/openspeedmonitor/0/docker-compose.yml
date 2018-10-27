@@ -46,7 +46,7 @@ osmda_mongodb:
   volumes:
     - osmda_mongodb_data:/data/db
 
-olumes:
+volumes:
   osm_mysql_data:
     driver: local
   osmda_mongodb_data:
