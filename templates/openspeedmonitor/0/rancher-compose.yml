@@ -1,4 +1,7 @@
-version: '2'
+.catalog:
+  name:  openspeedmonitor
+version: 1
+  description: openspeedmonitor
 services:
   osm:
     scale: 1

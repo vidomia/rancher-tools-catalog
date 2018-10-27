@@ -1,5 +1,6 @@
-name: "OpenSpeedMonitor"
-description: "OpenSpeedMonitor"
+name: openspeedmonitor
+description: |
+        Monitoring
+version: 1
 maintainer: julien@vidomia.biz<julien BIJOUX>
-version: "latest"
 category: Monitoring
