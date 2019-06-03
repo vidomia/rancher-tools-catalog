@@ -10,10 +10,10 @@ services:
     volumes:
       - app-volume2:/var/s3
     environment:
-      S3KEY: 'nNB7FSg6yqJyTkDU'
-      SECRET: 'FWPW9kyy2KtmKw4v'
-      ENDPOINT: 'http://vidomia.pro.dns-orange.fr:9000'
-      BUCKET: 'replicamp.com'
+      S3KEY: ${KEY}
+      SECRET: "${SECRET}"
+      ENDPOINT: "${ENDPOINT}"
+      BUCKET: "${BUCKET}"
     labels:
       traefik.frontend.rule: Host:${DOMAINNAME}
       traefik.port: '2015'

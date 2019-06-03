@@ -10,6 +10,34 @@
       type: string
       required: true
       default: "www.vidomia.biz"
+    - variable: KEY
+      label: Domain name
+      description: |
+        "caddys3fs KEY"
+      type: string
+      required: true
+      default: ""
+    - variable: SECRET
+      label: Domain name
+      description: |
+        "caddys3fs Secret"
+      type: string
+      required: true
+      default: ""
+    - variable: ENDPOINT
+      label: Domain name
+      description: |
+        "caddys3fs Endpoint"
+      type: string
+      required: true
+      default: ""
+    - variable: BUCKET
+      label: Nom du bucket
+      description: |
+        "caddys3fs bucket"
+      type: string
+      required: true
+      default: "kfc"
 filebackend:
   scale: 1
   start_on_create: true
