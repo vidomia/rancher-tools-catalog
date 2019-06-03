@@ -11,21 +11,21 @@
       required: true
       default: "www.vidomia.biz"
     - variable: KEY
-      label: Domain name
+      label: Access Key S3
       description: |
         "caddys3fs KEY"
       type: string
       required: true
       default: ""
     - variable: SECRET
-      label: Domain name
+      label: Secret Key S3
       description: |
         "caddys3fs Secret"
       type: string
       required: true
       default: ""
     - variable: ENDPOINT
-      label: Domain name
+      label: Endpoint for s3
       description: |
         "caddys3fs Endpoint"
       type: string
