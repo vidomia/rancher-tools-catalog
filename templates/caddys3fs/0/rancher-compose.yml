@@ -1,0 +1,15 @@
+.catalog:
+  name:  caddys3fs
+  version: 1
+  description: caddys3fs
+  questions:
+    - variable: DOMAINNAME
+      label: Domain name
+      description: |
+        "caddys3fs Domain"
+      type: string
+      required: true
+      default: "www.vidomia.biz"
+filebackend:
+  scale: 1
+  start_on_create: true

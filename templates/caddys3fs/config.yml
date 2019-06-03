@@ -1,0 +1,7 @@
+name: caddys3fs
+description: |
+        Caddy S3
+version: 3
+category: cms
+maintainer: julien@vidomia.biz<julien BIJOUX>
+license: BSD
