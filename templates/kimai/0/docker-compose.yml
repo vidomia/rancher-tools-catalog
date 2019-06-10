@@ -1,0 +1,20 @@
+version: '2'
+volumes:
+  kimai_data2:
+    external: true
+    driver: rancher-nfs
+services:
+  kimai:
+    image: kimai/kimai2:latest
+    environment:
+      APP_ENV: prod
+      APP_SECRET: 
+      DATABASE_URL: sqlite:///opt/kimai/var/data/kimai.sqlite
+      MAILER_FROM: kimai@upto1.fr
+      TRUSTED_HOSTS: localhost
+    volumes:
+    - kimai_data2:/opt/kimai/var/data/
+    labels:
+      traefik.frontend.rule: Host:kimai.upto1.fr
+      traefik.port: '8001'
+      traefik.enable: 'true'
